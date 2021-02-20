@@ -1,52 +1,55 @@
 class Solution {
     public int solution(String name) {
-        int answer = 0;
-        int firstAcount = 0;
-        int lastAcount = 0;
+        int nameLength = name.length();
+        int[] changesArr = new int[nameLength];
 
-        for (int i=1; i<name.length(); i++) {
-            if (i == 1) {
-                if (name.charAt(i) == 'A') {
-                    firstAcount++;
-                }
-                else {
-                    break;
-                }
-                continue;
+        int changes = 0;
+        int rightMove = 0;
+        int leftMove = 0;
+
+        int sum = 0;
+        for (int i=0; i<nameLength; i++) {
+            int temp = clickChange(name.charAt(i));
+            changesArr[i] = temp;
+            sum += temp;
+        }
+
+        boolean movingRight = moveRightOrNot(name);
+
+        if (!movingRight) {
+            int[] temp = new int[nameLength];
+            temp[0] = changesArr[0];
+            for (int i=1; i<nameLength; i++) {
+                temp[i] = changesArr[nameLength - i];
             }
-            if (name.charAt(i) == 'A' && firstAcount != 0) {
-                firstAcount++;
-            }
-            else {
+            changesArr = temp;
+        }
+
+        int ix = 0;
+
+        while (changes < sum) {
+            changes += changesArr[ix];
+            if (changes >= sum) {
                 break;
             }
-        }
-        for (int i=name.length()-1; i>0; i--) {
-            if (i == name.length()-1) {
-                if (name.charAt(i) == 'A') {
-                    lastAcount++;
-                }
-                else {
-                    break;
-                }
-                continue;
+
+            int aStreak = 1;
+            while (ix + aStreak < nameLength && changesArr[ix + aStreak] == 0) {
+                aStreak++;
             }
-            if (name.charAt(i) == 'A' && lastAcount != 0) {
-                lastAcount++;
+
+            if (aStreak >= nameLength - aStreak) {
+                leftMove += nameLength-aStreak;
+
             }
-            else {
-                break;
+            else if (ix != nameLength-1){
+                rightMove += aStreak;
             }
+
+            ix = ix + aStreak;
         }
 
-        for (int i=0; i<name.length(); i++) {
-            answer += clickChange(name.charAt(i))+1;
-        }
-        answer--;
-
-        answer -= Math.max(firstAcount, lastAcount);
-
-        return answer;
+        return changes + rightMove + leftMove;
     }
 
     private int clickChange(char c) {
@@ -58,5 +61,31 @@ class Solution {
             clicks += 'Z' - c + 1;
         }
         return clicks;
+    }
+
+    private boolean moveRightOrNot(String s) {
+        int sLength = s.length();
+        int rightMoveCount = 0;
+        int leftMoveCount = 0;
+
+        for (int i=1; i<sLength; i++) {
+            if (s.charAt(i) == 'A') {
+                rightMoveCount++;
+            }
+            else {
+                break;
+            }
+        }
+
+        for (int i=sLength-1; i>0; i--) {
+            if (s.charAt(i) == 'A') {
+                leftMoveCount++;
+            }
+            else {
+                break;
+            }
+        }
+
+        return rightMoveCount <= leftMoveCount;
     }
 }

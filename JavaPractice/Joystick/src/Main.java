@@ -9,18 +9,18 @@ public class Main {
         InputExample input1 = new InputExample("JAZ");
         InputExample input2 = new InputExample("JEROEN");
         InputExample input3 = new InputExample("JAN");
-        InputExample input4 = new InputExample("BAA");
+        InputExample input4 = new InputExample("BAABAAABA");
         InputExample input5 = new InputExample("BBBAAB");
-        InputExample input6 = new InputExample("BBBAAAAB");
+        InputExample input6 = new InputExample("ABABAAAAABAABA");
         inputList.add(input1); inputList.add(input2); inputList.add(input3); inputList.add(input4);
         inputList.add(input5); inputList.add(input6);
 
         int output1 = 11;
         int output2 = 56;
         int output3 = 23;
-        int output4 = 1;
+        int output4 = 9;
         int output5 = 9;
-        int output6 = 9;
+        int output6 = 15;
         outputList.add(output1); outputList.add(output2); outputList.add(output3); outputList.add(output4);
         outputList.add(output5); outputList.add(output6);
 

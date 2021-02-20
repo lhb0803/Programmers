@@ -15,25 +15,38 @@ class Solution {
         }
 
         int ix = 0;
+        boolean movingRight = true;
         while (changes < sum) {
             changes += changesArr[ix];
             if (changes >= sum) {
                 break;
             }
 
-            int aStreak = 1;
-            while (ix + aStreak < nameLength && changesArr[ix + aStreak] == 0) {
-                aStreak++;
-            }
+            if (movingRight) {
+                int tempRix = ix; int tempLix = nameLength;
+                int tempR = 1; int tempL = 1;
 
-            if (aStreak >= nameLength - aStreak) {
-                leftMove += nameLength-aStreak;
-            }
-            else if (ix != nameLength-1){
-                rightMove += aStreak;
-            }
+                while(tempRix + tempR < nameLength && changesArr[tempRix + tempR] == 0) {
+                    tempR++;
+                }
+                while(changesArr[tempLix - tempL] == 0) {
+                    tempL++;
 
-            ix = ix + aStreak;
+                }
+                if (tempR > ix + tempL) {
+                    leftMove += tempL + ix;
+                    ix = tempLix - tempL;
+                    movingRight = false;
+                }
+                else {
+                    rightMove += tempR;
+                    ix = tempRix + tempR;
+                }
+            }
+            else {
+                ix--;
+                leftMove++;
+            }
         }
 
         return changes + rightMove + leftMove;
@@ -49,4 +62,6 @@ class Solution {
         }
         return clicks;
     }
+
+
 }

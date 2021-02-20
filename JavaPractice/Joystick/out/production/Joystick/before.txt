@@ -1,0 +1,62 @@
+class Solution {
+    public int solution(String name) {
+        int answer = 0;
+        int firstAcount = 0;
+        int lastAcount = 0;
+
+        for (int i=1; i<name.length(); i++) {
+            if (i == 1) {
+                if (name.charAt(i) == 'A') {
+                    firstAcount++;
+                }
+                else {
+                    break;
+                }
+                continue;
+            }
+            if (name.charAt(i) == 'A' && firstAcount != 0) {
+                firstAcount++;
+            }
+            else {
+                break;
+            }
+        }
+        for (int i=name.length()-1; i>0; i--) {
+            if (i == name.length()-1) {
+                if (name.charAt(i) == 'A') {
+                    lastAcount++;
+                }
+                else {
+                    break;
+                }
+                continue;
+            }
+            if (name.charAt(i) == 'A' && lastAcount != 0) {
+                lastAcount++;
+            }
+            else {
+                break;
+            }
+        }
+
+        for (int i=0; i<name.length(); i++) {
+            answer += clickChange(name.charAt(i))+1;
+        }
+        answer--;
+
+        answer -= Math.max(firstAcount, lastAcount);
+
+        return answer;
+    }
+
+    private int clickChange(char c) {
+        int clicks = 0;
+        if (c >= 'B' && c <= 'N') {
+            clicks += c - 'A';
+        }
+        else if (c > 'N' && c <= 'Z'){
+            clicks += 'Z' - c + 1;
+        }
+        return clicks;
+    }
+}
